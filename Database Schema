@@ -1,0 +1,67 @@
+CREATE TABLE Account
+(
+	username VARCHAR(50),
+	[password] VARCHAR(100),
+	account_type VARCHAR(10),
+	CONSTRAINT PK_Account PRIMARY KEY (username)
+)
+
+CREATE TABLE [Order]
+(
+	[date] DATE,
+	order_number INT,
+	order_type VARCHAR(10),
+	CONSTRAINT PK_Order PRIMARY KEY ([date], order_number)
+)
+
+CREATE TABLE Menu
+(
+	id INT,
+	[name] VARCHAR(50),
+	price MONEY,
+	CONSTRAINT PK_Menu PRIMARY KEY (id)
+)
+
+CREATE TABLE Inventory
+(
+	item_name VARCHAR(50),
+	amount INT,
+	CONSTRAINT PK_Inventory PRIMARY KEY (item_name)
+)
+
+CREATE TABLE [Create]
+(
+	account_username VARCHAR(50),
+	order_date DATE,
+	order_number INT,
+	CONSTRAINT PK_Create PRIMARY KEY (account_username, order_date, order_number),
+	CONSTRAINT FK_Create_Account FOREIGN KEY (account_username) REFERENCES Account(username),
+	CONSTRAINT FK_Create_Order FOREIGN KEY (order_date, order_number) REFERENCES [Order]([date], order_number)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
+)
+
+CREATE TABLE Contain
+(
+	order_date DATE,
+	order_number INT,
+	menu_id INT,
+	note TEXT,
+	bill MONEY,
+	CONSTRAINT PK_Contain PRIMARY KEY (order_date, order_number,  menu_number),
+	CONSTRAINT FK_Contain_Order FOREIGN KEY (order_date, order_number) REFERENCES [Order]([date], order_number),
+	CONSTRAINT FK_Contain_Menu FOREIGN KEY (menu_id) REFERENCES Menu(id)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
+)
+
+CREATE TABLE [Use]
+(
+	menu_id INT,
+	inventory_item_name VARCHAR(50),
+	CONSTRAINT PK_Use PRIMARY KEY (menu_id, inventory_item_name),
+	CONSTRAINT FK_Use_Menu FOREIGN KEY (menu_id) REFERENCES Menu(id),
+	CONSTRAINT FK_Use_Inventory FOREIGN KEY (inventory_item_name) REFERENCES Inventory(item_name)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
+)
