@@ -48,7 +48,7 @@ CREATE TABLE Contain
 	menu_id INT,
 	note TEXT,
 	bill MONEY,
-	CONSTRAINT PK_Contain PRIMARY KEY (order_date, order_number,  menu_number),
+	CONSTRAINT PK_Contain PRIMARY KEY (order_date, order_number,  menu_id),
 	CONSTRAINT FK_Contain_Order FOREIGN KEY (order_date, order_number) REFERENCES [Order]([date], order_number),
 	CONSTRAINT FK_Contain_Menu FOREIGN KEY (menu_id) REFERENCES Menu(id)
 	ON UPDATE CASCADE
